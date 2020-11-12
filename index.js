@@ -58,7 +58,7 @@ const _splitToStream = (outStreamCreate, fileStream, partitionStreamSize, callba
 				openStream = true;
 			}
 			// A Readable stream in object mode will always return a single item from a call to readable.read(size), regardless of the value of the size argument.
-			const writeChunk = isObjectMode ? JSON.stringify(chunk) : chunk
+			const writeChunk = isObjectMode && (chunk instanceof Object) ? JSON.stringify(chunk) : chunk
 			if (writeChunk.length > partitionStreamSize) {
 				// In objectMode one object is read from the stream, it could be that the size is bigger than the partition size
 				err = new RangeError("Could not fit object into maxFileSize");
